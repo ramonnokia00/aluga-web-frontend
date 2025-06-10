@@ -1,8 +1,14 @@
+
+import { LoginProvider } from "./contexts/Logincontext";
+import Paths from "./routes/paths";
+
+
 const App = () => {
-  return ( <>
-  <h1>hello Word</h1>
-  </> );
+  return (<>
+<LoginProvider>
+    <Paths />
+</LoginProvider>
+  </>);
 }
- 
-export default App;<>
-</>
+
+export default App;
