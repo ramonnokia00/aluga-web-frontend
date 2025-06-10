@@ -40,12 +40,12 @@ export default function SearchBar() {
   return (
     <div className="w-full">
       <form
-        className="flex items-center gap-4 border-laranja border-2 border-primary rounded-full px-2 py-2 w-full bg-white"
+        className="flex items-center border-laranja border-2 border-primary rounded-full px-2 py-2 w-full bg-white"
         onSubmit={handleBuscar}
       >
-        <img src={loca} alt="" />
+        <img src={loca} alt="" className="ml-2 mr-4" />
         <select
-          className="text-2xl outline-none font-inter w-48"
+          className="flex-1 text-2xl outline-none font-inter bg-transparent"
           value={estado}
           onChange={(e) => setEstado(e.target.value)}
         >
@@ -58,7 +58,7 @@ export default function SearchBar() {
         </select>
         <button
           type="submit"
-          className="bg-laranja2 text-white px-8 py-3 rounded-full font-medium hover:bg-orange-800 duration-200 cursor-pointer"
+          className="bg-laranja2 text-white px-8 py-3 rounded-full font-medium hover:bg-orange-800 duration-200 cursor-pointer ml-4"
           disabled={loading}
         >
           {loading ? "Buscando..." : "Buscar"}

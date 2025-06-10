@@ -1,16 +1,30 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 
 import Home from "../pages/Home";
 import Imoveis from "../pages/Imoveis";
 import Login from "../pages/Login";
 
-export default function AppRoutes() {
+import PageLayout from '../Layouts/PageLayout';
+
+
+const Paths = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/imoveis" element={<Imoveis />} />
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PageLayout/>}>
+          <Route index element={<Home />} />
+          <Route path="imoveis" element={<Imoveis/>}/>
+          <Route path="login" element={<Login/>}/>
+        </Route>
+        </Routes>
+        {/* <Route path="/auth" element={<AuthLayout/>}>
+          <Route index element={<Login />} />
+        </Route> */}
+      
+    </BrowserRouter>
   );
 }
+
+export default Paths;
