@@ -1,3 +1,4 @@
+
 import loca from "../assets/iconelocali.png"
 export default function SearchBar() {
   return (

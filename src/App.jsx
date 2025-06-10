@@ -1,14 +1,15 @@
+import React from "react";
+import Home from "./pages/Home";
+import Header from "./components/Header";
+import SearchBar from "./components/SearchBar";
+import Footer from "./components/Footer";
 
-import { LoginProvider } from "./contexts/Logincontext";
-import Paths from "./routes/paths";
-
-
-const App = () => {
-  return (<>
-<LoginProvider>
-    <Paths />
-</LoginProvider>
-  </>);
+function App() {
+  return (
+  <>
+  <Home />
+  </>
+  );
 }
 
 export default App;
