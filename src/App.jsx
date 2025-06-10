@@ -1,15 +1,16 @@
-import React from "react";
-import Home from "./pages/Home";
-import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import Footer from "./components/Footer";
+
+import Paths from "./routes/paths";
 
 function App() {
   return (
+ Maciel
   <>
   
   <Footer />
   </>
+
+    <Paths />
+ main
   );
 }
 

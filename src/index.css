@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@theme {
+        --color-laranja: #E04300;
+        --color-laranja2: #DF4300;
+        --color-laranja-70: #E0430070;
+        --color-laranja-20: #E0430020;
+        --color-gray: #959595;
+        --color-cinzaborda-15: #00000015;
+        --color-black-05: #00000005;
+      }
