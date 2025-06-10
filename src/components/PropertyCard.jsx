@@ -1,7 +1,8 @@
+import casa from "../assets/imagemcasa.png"
 const PropertyCard = () => (
   <div className="bg-white p-4 rounded-xl shadow flex gap-4">
     <img
-      src="https://via.placeholder.com/200x150"
+      src={casa}
       alt="Casa"
       className="rounded-lg object-cover w-48 h-32"
     />
