@@ -1,7 +1,7 @@
 const Imoveis = () => {
     return ( 
         <>
-        <h1>Deu bom</h1>
+        <h1 className="text-black">Deu bom</h1>
         </>
      );
 }

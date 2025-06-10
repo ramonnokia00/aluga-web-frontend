@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PageLayout from "../layouts/PageLayout";
+
 
 import Home from '../pages/Home';
 import Imoveis from '../pages/Imoveis';
 
 import Login from "../pages/login";
-import AuthLayout from '../Layouts/AuthLayout';
+import PageLayout from '../Layouts/PageLayout';
+
 
 const Paths = () => {
   return (
@@ -14,12 +15,14 @@ const Paths = () => {
       <Routes>
         <Route path="/" element={<PageLayout/>}>
           <Route index element={<Home />} />
-          <Route path="Imoveis" element={<Imoveis />} />
+          <Route path="imoveis" element={<Imoveis/>}/>
+          <Route path="login" element={<Login/>}/>
         </Route>
-        <Route path="/auth" element={<AuthLayout/>}>
+        </Routes>
+        {/* <Route path="/auth" element={<AuthLayout/>}>
           <Route index element={<Login />} />
-        </Route>
-      </Routes>
+        </Route> */}
+      
     </BrowserRouter>
   );
 };
