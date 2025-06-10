@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SearchBar from "../components/SearchBar";
-import imgPessoa from "../assets/pessoa.png"; // coloque sua imagem em src/assets
+import imgPessoa from "../assets/pessoa.png"; 
 
 export default function Home() {
   return (

@@ -8,9 +8,6 @@ function App() {
   return (
   <>
   <Home />
-  <Header />
-  <SearchBar />
-  <Footer />
   </>
   );
 }

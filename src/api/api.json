@@ -1,0 +1,16 @@
+{
+    "usuarios": [
+        {
+            "usuario_id": 1,
+            "usuario_nome": "Emmanuel",
+            "usuario_email": "emmanuelbdev@gmail.com",
+            "usuario_telefone": 85998500344,
+            "usuario_senha": "senha",
+            "usuario_cpf": "047.147.423-20",
+            "usuario_nivel": "Masculino",
+            "usuario_nascimento": "21/06/1992",
+            "usuario_imagem": "img"
+        }
+       
+    ]
+}
