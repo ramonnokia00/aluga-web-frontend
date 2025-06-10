@@ -6,7 +6,7 @@ import Home from '../pages/Home';
 import Imoveis from '../pages/Imoveis';
 
 import Login from "../pages/login";
-import AuthLayout from '../layouts/AuthLayout';
+import AuthLayout from '../Layouts/AuthLayout';
 
 const Paths = () => {
   return (

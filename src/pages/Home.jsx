@@ -1,6 +1,4 @@
 
-import React from "react";
-import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import imgPessoa from "../assets/pessoa.png"; 
 

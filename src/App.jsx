@@ -1,13 +1,17 @@
 import React from "react";
 import Home from "./pages/Home";
+import { LoginProvider } from "./contexts/LoginContext";
+import Footer from "./components/footer";
 import Header from "./components/Header";
-import SearchBar from "./components/SearchBar";
-import Footer from "./components/Footer";
 
 function App() {
   return (
-  <>
-  <Home />
+  <><LoginProvider>
+  <Header/>
+  <Home /> 
+  <Footer/> 
+  </LoginProvider>
+  
   </>
   );
 }
