@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 
-import Home from '../pages/Home';
-import Imoveis from '../pages/Imoveis';
+import Home from "../pages/Home";
+import Imoveis from "../pages/Imoveis";
+import Login from "../pages/Login";
 
-import Login from "../pages/login";
 import PageLayout from '../Layouts/PageLayout';
 
 
@@ -25,6 +25,6 @@ const Paths = () => {
       
     </BrowserRouter>
   );
-};
+}
 
 export default Paths;

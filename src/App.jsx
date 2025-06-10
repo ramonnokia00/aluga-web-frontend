@@ -3,9 +3,7 @@ import Paths from "./routes/paths";
 
 function App() {
   return (
-  <>
-  <Paths/>  
-  </>
+    <Paths />
   );
 }
 
