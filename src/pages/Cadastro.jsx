@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import icone from "../assets/icone.png";
+import iconeCasa from "../assets/icone.png";
 import { FiArrowLeft } from "react-icons/fi";
 
 export default function Cadastro() {
@@ -31,7 +31,7 @@ export default function Cadastro() {
               <FiArrowLeft />
             </button>
             <div className="bg-[#DF4300] rounded flex items-center justify-center p-1">
-              <img src={icone} alt="Logo" className="w-8 h-8" />
+              <img src={iconeCasa} alt="Logo" className="w-8 h-8" />
             </div>
             <span className="font-bold text-[#DF4300] text-xl ml-2">
               Aluga Web
