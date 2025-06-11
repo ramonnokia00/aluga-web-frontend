@@ -1,3 +1,4 @@
+
 import React from "react";
 import Home from "./pages/Home";
 import { LoginProvider } from "./contexts/LoginContext";
@@ -14,7 +15,11 @@ function App() {
   <Abas/> 
   </LoginProvider>
   
+  <Footer />
   </>
+
+    <Paths />
+ main
   );
 }
 

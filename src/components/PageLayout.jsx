@@ -9,7 +9,7 @@ const PageLayout = () => {
 <Outlet/>
 <Abas/>
 <Footer/>
-    
+
     </> );
 }
  
