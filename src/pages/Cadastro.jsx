@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import iconeCasa from "../assets/icone.png";
 import { FiArrowLeft } from "react-icons/fi";
 
@@ -28,7 +28,7 @@ export default function Cadastro() {
               className="text-[#DF4300] text-2xl cursor-pointer hover:opacity-70 transition"
               aria-label="Voltar para login"
             >
-              <FiArrowLeft />
+              <FiArrowLeft/>
             </button>
             <div className="bg-[#DF4300] rounded flex items-center justify-center p-1">
               <img src={iconeCasa} alt="Logo" className="w-8 h-8" />
@@ -38,7 +38,7 @@ export default function Cadastro() {
             </span>
           </div>
           <label className="block mb-4">
-            <span className="text-gray-700">Nome</span>
+            <span className="text-gray-700 font-semibold">Nome</span>
             <input
               type="text"
               className="mt-1 block w-full rounded bg-gray-100 p-2 outline-none"
@@ -48,7 +48,7 @@ export default function Cadastro() {
             />
           </label>
           <label className="block mb-4">
-            <span className="text-gray-700">Email</span>
+            <span className="text-gray-700 font-semibold">Email</span>
             <input
               type="email"
               className="mt-1 block w-full rounded bg-gray-100 p-2 outline-none"
@@ -58,7 +58,7 @@ export default function Cadastro() {
             />
           </label>
           <label className="block mb-6">
-            <span className="text-gray-700">Senha</span>
+            <span className="text-gray-700 font-semibold">Senha</span>
             <input
               type="password"
               className="mt-1 block w-full rounded bg-gray-100 p-2 outline-none"
@@ -73,6 +73,7 @@ export default function Cadastro() {
           >
             Entrar
           </button>
+          <h2 className="mt-3 cursor-pointer hover:underline"><NavLink to="/">Ja possui Cadastro?</NavLink></h2>
         </form>
       </div>
       <footer className="text-center text-xs text-[#DF4300] font-bold mt-4 mb-2">
