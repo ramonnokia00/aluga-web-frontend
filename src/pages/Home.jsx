@@ -14,7 +14,7 @@ export default function Home() {
         </div>
 
         {/* Imagem à direita */}
-        <div className="w-full flex justify-center lg:justify-end lg:w-1/2 mt-8 lg:mt-0">
+        <div className="md:w-full flex justify-center lg:justify-end lg:w-1/2 mt-8">
           <img
             src={imgPessoa}
             alt="Pessoa"

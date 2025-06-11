@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 // import { useLogin } from './context/LoginContext';
 import icone from "../assets/icone.png";
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate, Link } from "react-router";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,13 +11,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/imoveis")
+    navigate("/imoveis");
     // await login(email, senha);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="bg-white flex justify-center min-h-screen items-center">
+      <div className="bg-white flex justify-center min-h-screen items-center md:mb-3">
         <div className="bg-white h-[420px] w-[400px] border-gray-300 rounded items-center inline-block p-4 border-[1px] shadow-lg">
           <div className="items-center">
             <div className="flex gap-4 justify-center mb-4">
@@ -49,15 +49,23 @@ const Login = () => {
               />
             </label>
           </div>
-          <div className="flex justify-between font-semibold text-black cursor-pointer p-4 text-sm">
-            <p className="hover:underline">Esqueci a senha</p>
-            <p className="hover:underline">Criar Conta</p>
+          <div className="flex justify-between items-center mb-6 mt-5">
+            <a href="#" className="font-semibold">
+              Esqueci a senha
+            </a>
+            <Link
+              to="/cadastro"
+              className="font-semibold text-[#DF4300] hover:underline"
+            >
+              Criar Conta
+            </Link>
           </div>
           <button
             type="submit"
             // disabled={loading}
             className="w-full bg-[#E04300] rounded-xl hover:bg-[#8a2b02] cursor-pointer text-white font-bold p-3 duration-200"
-          >Entrar
+          >
+            Entrar
             {/* {loading ? 'Carregando...' : 'Entrar'} */}
           </button>
           {/* {error && <p className="text-red-500 text-center mt-2">{error}</p>} */}
