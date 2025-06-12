@@ -1,7 +1,7 @@
 import { useState } from "react";
 // import { useLogin } from './context/LoginContext';
 import icone from "../assets/icone.png";
-import { NavLink, useNavigate, Link } from "react-router";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -50,9 +50,12 @@ const Login = () => {
             </label>
           </div>
           <div className="flex justify-between items-center mb-6 mt-5">
-            <a href="#" className="font-semibold">
+            <Link
+              to="/esqueci-senha"
+              className="text-[#DF4300] font-semibold hover:underline"
+            >
               Esqueci a senha
-            </a>
+            </Link>
             <Link
               to="/cadastro"
               className="font-semibold text-[#DF4300] hover:underline"
