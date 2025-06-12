@@ -1,8 +1,5 @@
-
-
-
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import iconeboneco from "../assets/iconeentrar.png";
 import icone from "../assets/icone.png";
@@ -10,12 +7,14 @@ import icone from "../assets/icone.png";
 export default function Header() {
   return (
     <header className="flex justify-between items-center py-4 px-6 border-b border-cinzaborda-15">
-      <div className="flex items-center gap-2">
-        <div className="bg-laranja rounded">
-          <img src={icone} alt="Logo Aluga Web" className="p-[6px] " />
+      <Link to="/" className="flex gap-3 items-center cursor-pointer">
+        <div className="bg-[#DF4300] rounded justify-center flex">
+          <img src={icone} alt="" className="p-1 w-8 h-8" />
         </div>
-        <span className="font-bold text-laranja text-2xl">Aluga Web</span>
-      </div>
+        <p className="text-[#DF4300] text-xl md:text-2xl font-bold">
+          Aluga Web
+        </p>
+      </Link>
 
       <NavLink
         to="/login"
