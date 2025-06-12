@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import Imoveis from "../pages/Imoveis";
 import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
+import EsqueciSenha from "../pages/EsqueciSenha";
 
 import PageLayout from "../Layouts/PageLayout";
 
@@ -17,6 +18,7 @@ const Paths = () => {
           <Route path="imoveis" element={<Imoveis />} />
           <Route path="login" element={<Login />} />
           <Route path="cadastro" element={<Cadastro />} />
+          <Route path="esqueci-senha" element={<EsqueciSenha />} />
         </Route>
       </Routes>
       {/* <Route path="/auth" element={<AuthLayout/>}>
