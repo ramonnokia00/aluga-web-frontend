@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import Card from "../components/Card";
 
 export default function Imoveis() {
   const location = useLocation();
@@ -9,6 +10,7 @@ export default function Imoveis() {
     <div>
       <h1>Imóveis para o estado: {estado}</h1>
       {/* Aqui você pode renderizar os imóveis filtrados */}
+      <Card />
     </div>
   );
 }
