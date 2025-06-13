@@ -11,7 +11,7 @@
 //     setLoading(true);
 //     setError('');
 //     try {
-//       const response = await fetch(`http://localhost:3000/usuarios?email=${email}&senha=${senha}`);
+//       const response = await fetch(`http://localhost:8000/usuarios?email=${email}&senha=${senha}`);
 //       const data = await response.json();
 //       if (data.length === 0) {
 //         throw new Error('Usuário ou senha inválidos');

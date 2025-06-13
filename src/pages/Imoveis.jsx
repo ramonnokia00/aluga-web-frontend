@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import Abas from "../components/Abas";
+import Abas from "./Abas";
 import Card from "../components/Card";
 
 export default function Imoveis() {
