@@ -1,18 +1,20 @@
 import { useState } from "react";
-// import { useLogin } from './context/LoginContext';
 import icone from "../assets/icone.png";
-import { NavLink, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useLogin } from "../contexts/LoginContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const { login, loading, error } = useLogin();
-  // const [email, setEmail] = useState('');
-  // const [senha, setSenha] = useState('');
+  const { login, loading, error } = useLogin();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate("/imoveis");
-    // await login(email, senha);
+    const sucesso = await login(email, senha);
+    if (sucesso) {
+      navigate("/imoveis");
+    }
   };
 
   return (
@@ -32,9 +34,9 @@ const Login = () => {
                 type="email"
                 className="bg-gray-300 rounded w-full p-2"
                 placeholder="@gmail.com"
-                // value={email}
-                // onChange={(e) => setEmail(e.target.value)}
-                // required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </label>
             <label>
@@ -43,9 +45,9 @@ const Login = () => {
                 type="password"
                 placeholder="******"
                 className="bg-gray-300 rounded w-full p-2"
-                // value={senha}
-                // onChange={(e) => setSenha(e.target.value)}
-                // required
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+                required
               />
             </label>
           </div>
@@ -65,13 +67,12 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            // disabled={loading}
+            disabled={loading}
             className="w-full bg-[#E04300] rounded-xl hover:bg-[#8a2b02] cursor-pointer text-white font-bold p-3 duration-200"
           >
-            Entrar
-            {/* {loading ? 'Carregando...' : 'Entrar'} */}
+            {loading ? "Carregando..." : "Entrar"}
           </button>
-          {/* {error && <p className="text-red-500 text-center mt-2">{error}</p>} */}
+          {error && <p className="text-red-500 text-center mt-2">{error}</p>}
         </div>
       </div>
     </form>

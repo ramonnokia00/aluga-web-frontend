@@ -1,27 +1,97 @@
-import casa from "../assets/imagemcasa.png"
-const PropertyCard = () => (
-  <div className="bg-white p-4 rounded-xl shadow flex gap-4">
-    <img
-      src={casa}
-      alt="Casa"
-      className="rounded-lg object-cover w-48 h-32"
-    />
-    <div className="flex-1">
-      <h3 className="text-lg font-semibold">Rua Eduardo Bezerra, 1182</h3>
-      <p className="text-sm text-gray-500">São João do Tauape, Fortaleza/CE</p>
-      <p className="text-sm mt-1">Casa para alugar, 500m²</p>
-      <p className="text-sm text-gray-600">Excelente Casa à venda ou Locação</p>
-      <div className="flex gap-4 mt-2 text-sm text-gray-700">
-        <span>500m²</span>
-        <span>3 Quartos</span>
-        <span>5 Garagens</span>
+import React from "react";
+import { FaHeart, FaBed, FaCar } from "react-icons/fa";
+
+const PropertyCard = ({
+  image,
+  address,
+  neighborhood,
+  city,
+  description,
+  area,
+  bedrooms,
+  garages,
+  price,
+  onContact,
+  isFavorite,
+  onFavorite,
+}) => {
+  return (
+    <div className="flex bg-white rounded-2xl shadow-lg overflow-hidden max-w-3xl mx-auto my-6 relative border border-gray-200 min-h-[200px]">
+      {/* Imagem */}
+      <div className="w-60 h-48 flex-shrink-0">
+        <img
+          src={image}
+          alt="Casa"
+          className="object-cover w-full h-full rounded-l-2xl"
+        />
+      </div>
+      {/* Conteúdo */}
+      <div className="flex-1 flex flex-col justify-between p-6 relative">
+        {/* Favorito */}
+        <button
+          className="absolute top-4 right-4 text-gray-300 hover:text-orange-500 transition"
+          onClick={onFavorite}
+        >
+          <FaHeart size={22} className={isFavorite ? "text-orange-500" : ""} />
+        </button>
+        {/* Endereço e bairro */}
+        <div>
+          <h3 className="font-semibold text-base text-gray-800 mb-1">
+            {address || "-"}
+          </h3>
+          <span className="text-sm text-gray-500 block mb-1">
+            {neighborhood || "-"}, {city || "-"}
+          </span>
+          <p className="text-sm text-gray-500 whitespace-pre-line">
+            {description || "-"}
+          </p>
+        </div>
+        {/* Detalhes */}
+        <div className="flex items-center gap-8 mt-4 text-gray-500 text-base">
+          <span>{area ? `${area}m²` : "- m²"}</span>
+          <span className="flex items-center gap-1">
+            <FaBed className="inline-block mb-[2px]" />{" "}
+            {bedrooms ? `${bedrooms} Quartos` : "Quartos"}
+          </span>
+          <span className="flex items-center gap-1">
+            <FaCar className="inline-block mb-[2px]" />{" "}
+            {garages ? `${garages} Garagem` : "Garagem"}
+          </span>
+        </div>
+      </div>
+      {/* Preço e botão */}
+      <div className="flex flex-col justify-center items-end p-6 min-w-[160px]">
+        <span className="text-orange-600 font-bold text-2xl mb-4">
+          {price ? `R$ ${price}` : "R$"}
+        </span>
+        <button
+          className="bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg px-6 py-2 transition"
+          onClick={onContact}
+        >
+          Contatar
+        </button>
       </div>
     </div>
-    <div className="text-right">
-      <p className="text-red-500 text-xl font-bold">R$ 5.000</p>
-      <button className="mt-2 px-4 py-2 bg-orange-500 text-white rounded">Contatar</button>
-    </div>
-  </div>
-);
+  );
+};
 
 export default PropertyCard;
+
+/* Uso do componente PropertyCard com os dados do imóvel */
+/*
+<PropertyCard
+  key={imovel.id}
+  image={imovel.imagem}
+  address={imovel.endereco}
+  neighborhood={imovel.bairro}
+  city={`${imovel.cidade} - ${imovel.uf}`}
+  description={`${imovel.titulo}\n${imovel.descricao}`}
+  area={imovel.area}
+  bedrooms={imovel.quartos}
+  garages={imovel.garagens}
+  price={imovel.preco}
+  onContact={() => alert("Contato!")}
+  isFavorite={false}
+  onFavorite={() => alert("Favorito!")}
+/>
+*/
