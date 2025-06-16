@@ -1,47 +1,52 @@
-// import { createContext, useState, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import api from "../services/api";
 
-// const LoginContext = createContext();
+export const LoginContext = createContext();
 
-// export const LoginProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState('');
+export function LoginProvider({ children }) {
+  const [usuario, setUsuario] = useState(() => {
+    const user = localStorage.getItem("usuario");
+    return user ? JSON.parse(user) : null;
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-//   const login = async (email, senha) => {
-//     setLoading(true);
-//     setError('');
-//     try {
-//       const response = await fetch(`http://localhost:8000/usuarios?email=${email}&senha=${senha}`);
-//       const data = await response.json();
-//       if (data.length === 0) {
-//         throw new Error('Usuário ou senha inválidos');
-//       }
-//       setUser(data[0]);
-//       localStorage.setItem('user', JSON.stringify(data[0]));
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+  const login = async (email, senha) => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await api.post("/usuarios/login", {
+        usuario_email: email,
+        usuario_senha: senha,
+      });
+      localStorage.setItem("usuario", JSON.stringify(res.data));
+      setUsuario(res.data);
+      setLoading(false);
+      return true;
+    } catch (err) {
+      setError("Email ou senha inválidos");
+      setLoading(false);
+      return false;
+    }
+  };
 
-//   const logout = () => {
-//     setUser(null);
-//     localStorage.removeItem('user');
-//   };
+  const logout = () => {
+    localStorage.removeItem("usuario");
+    setUsuario(null);
+  };
 
-//   useEffect(() => {
-//     const savedUser = localStorage.getItem('user');
-//     if (savedUser) {
-//       setUser(JSON.parse(savedUser));
-//     }
-//   }, []);
+  useEffect(() => {
+    const savedUser = localStorage.getItem("usuario");
+    if (savedUser) {
+      setUsuario(JSON.parse(savedUser));
+    }
+  }, []);
 
-//   return (
-//     <LoginContext.Provider value={{ user, login, logout, loading, error }}>
-//       {children}
-//     </LoginContext.Provider>
-//   );
-// };
+  return (
+    <LoginContext.Provider value={{ usuario, login, logout, loading, error }}>
+      {children}
+    </LoginContext.Provider>
+  );
+}
 
-// export const useLogin = () => useContext(LoginContext);
+export const useLogin = () => useContext(LoginContext);
