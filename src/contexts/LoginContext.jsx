@@ -1,47 +1,24 @@
-// import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useEffect, useState } from "react";
 
-// const LoginContext = createContext();
+export const LoginContext = createContext();
 
-// export const LoginProvider = ({ children }) => {
-//   const [user, setUser] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState('');
+const LoginProvider = ({ children }) => {
 
-//   const login = async (email, senha) => {
-//     setLoading(true);
-//     setError('');
-//     try {
-//       const response = await fetch(`http://localhost:8000/usuarios?email=${email}&senha=${senha}`);
-//       const data = await response.json();
-//       if (data.length === 0) {
-//         throw new Error('Usuário ou senha inválidos');
-//       }
-//       setUser(data[0]);
-//       localStorage.setItem('user', JSON.stringify(data[0]));
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
 
-//   const logout = () => {
-//     setUser(null);
-//     localStorage.removeItem('user');
-//   };
+    const [logado, setLogado] = useState(false);
+    const [usuario, setUsuario] = useState({});
+    useEffect(() => {
+const token = sessionStorage.getItem("token");
+if(token){
+    setLogado(true);
+    setUsuario(JSON.parse(sessionStorage.getItem("usuario")))
+}
+    },[logado]); 
+    return (
+        <LoginContext.Provider value={{ logado, setLogado, usuario }}>
+            { children }
+        </LoginContext.Provider>
+    );
+}
 
-//   useEffect(() => {
-//     const savedUser = localStorage.getItem('user');
-//     if (savedUser) {
-//       setUser(JSON.parse(savedUser));
-//     }
-//   }, []);
-
-//   return (
-//     <LoginContext.Provider value={{ user, login, logout, loading, error }}>
-//       {children}
-//     </LoginContext.Provider>
-//   );
-// };
-
-// export const useLogin = () => useContext(LoginContext);
+export default LoginProvider;
