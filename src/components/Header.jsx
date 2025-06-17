@@ -28,23 +28,29 @@ export default function Header() {
         </NavLink>
       ) : (
         <div className="flex items-center gap-2">
-  <div className="flex flex-col items-start">
-    <span className="text-[#DF4300] font-bold">
-      {usuario.nome || usuario.usuario_nome}
-    </span>
-    <button 
-      onClick={logout} 
-      className="text-sm text-gray-500 hover:underline cursor-pointer"
-    >
-      Sair
-    </button>
-  </div>
-  <img
-    src={usuario.foto || usuario.foto_url || "/user-default.png"}
-    alt="Foto"
-    className="w-8 h-8 rounded-full object-cover border"
-  />
-</div>
+          <div className="flex flex-col items-start">
+            <span className="text-[#DF4300] font-bold">
+              {usuario.nome || usuario.usuario_nome}
+            </span>
+            <button
+              onClick={logout}
+              className="text-sm text-gray-500 hover:underline cursor-pointer"
+            >
+              Sair
+            </button>
+          </div>
+          <img
+            src={
+              usuario.usuario_imagem
+                ? usuario.usuario_imagem.startsWith("http")
+                  ? usuario.usuario_imagem
+                  : `http://localhost:8000${usuario.usuario_imagem}`
+                : usuario.foto || usuario.foto_url || "/user-default.png"
+            }
+            alt="Foto"
+            className="w-8 h-8 rounded-full object-cover border"
+          />
+        </div>
       )}
     </header>
   );
