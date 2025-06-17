@@ -1,6 +1,6 @@
 import { Outlet } from "react-router";
 import Header from "./Header";
-import Footer from "./footer";
+import Footer from "./Footer";
 import Abas from "../pages/Abas";
 
 const PageLayout = () => {
@@ -9,7 +9,7 @@ const PageLayout = () => {
 <Outlet/>
 <Abas/>
 <Footer/>
-
+        
     </> );
 }
  
