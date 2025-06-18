@@ -23,7 +23,6 @@ export default function SearchBar() {
 
   const handleBuscar = (e) => {
     e.preventDefault();
-    console.log("submit");
     setErro("");
     setLoading(true);
 
@@ -33,8 +32,12 @@ export default function SearchBar() {
       return;
     }
 
-    // Redireciona para a página de imóveis filtrados
-    navigate(`/imoveis?estado=${estado}`);
+    // Pega o nome do estado selecionado
+    const estadoObj = estados.find((uf) => uf.sigla === estado);
+    const nomeEstado = estadoObj ? estadoObj.nome : "";
+
+    // Redireciona para a página de imóveis filtrados, passando nome e sigla
+    navigate(`/imoveis?estado=${estado}&nomeEstado=${encodeURIComponent(nomeEstado)}`);
   };
 
   return (

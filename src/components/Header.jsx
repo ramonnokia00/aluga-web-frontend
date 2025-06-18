@@ -50,7 +50,7 @@ export default function Header() {
         </NavLink>
       ) : (
         <div className="flex items-center gap-2">
-          <div className="items-center flex gap-3 mr-5">
+          <div className="items-center flex gap-3 mr-5 xl:invisible">
             <img src={favoritos} alt="" />
             <p className="text-gray font-semibold cursor-pointer hover:underline"><NavLink to={"/favoritos"}>Favoritos</NavLink></p>
           </div>

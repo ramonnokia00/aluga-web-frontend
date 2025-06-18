@@ -2,6 +2,16 @@ import React from "react";
 import { FaHome, FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function SidebarFilters({ filters, setFilters }) {
+  // Função para alternar filtros numéricos (quartos, banheiros, garagens)
+  const toggleNumericFilter = (key, value) => {
+    setFilters((f) => ({ ...f, [key]: f[key] === value ? "" : value }));
+  };
+
+  // Função para alternar tipoNegocio como switcher exclusivo
+  const setTipoNegocioSwitcher = (tipo) => {
+    setFilters((f) => ({ ...f, tipoNegocio: tipo }));
+  };
+
   return (
     <aside className="bg-white border border-[#E5E5E5] rounded-2xl w-full md:w-80 flex flex-col p-0">
       <div className="flex rounded-t-2xl overflow-hidden">
@@ -11,7 +21,8 @@ export default function SidebarFilters({ filters, setFilters }) {
               ? "bg-[#E94D0C] text-white"
               : "bg-[#D6D6D6] text-[#444]"
           }`}
-          onClick={() => setFilters((f) => ({ ...f, tipoNegocio: "comprar" }))}
+          onClick={() => setTipoNegocioSwitcher("comprar")}
+          type="button"
         >
           Comprar
         </button>
@@ -21,12 +32,12 @@ export default function SidebarFilters({ filters, setFilters }) {
               ? "bg-[#E94D0C] text-white"
               : "bg-[#D6D6D6] text-[#444]"
           }`}
-          onClick={() => setFilters((f) => ({ ...f, tipoNegocio: "alugar" }))}
+          onClick={() => setTipoNegocioSwitcher("alugar")}
+          type="button"
         >
           Alugar
         </button>
       </div>
-
       <div className="p-6 pt-4">
         {/* Localização */}
         <div className="mb-6">
@@ -52,14 +63,12 @@ export default function SidebarFilters({ filters, setFilters }) {
                 className="ml-1 cursor-pointer"
                 onClick={() => setFilters((f) => ({ ...f, localizacao: "" }))}
               >
-                
+                ×
               </span>
             </span>
           )}
         </div>
-
         <div className="border-t border-[#E5E5E5] my-4" />
-
         {/* Tipos de imóveis */}
         <div className="mb-6">
           <label className="block text-xs font-semibold text-[#222] mb-2">
@@ -72,7 +81,7 @@ export default function SidebarFilters({ filters, setFilters }) {
                   ? "bg-[#E94D0C] text-white"
                   : "bg-[#FFE5DA] text-[#E94D0C]"
               }`}
-              onClick={() => setFilters((f) => ({ ...f, tipoImovel: "casa" }))}
+              onClick={() => setFilters((f) => ({ ...f, tipoImovel: f.tipoImovel === "casa" ? "" : "casa" }))}
             >
               <FaHome size={18} />
               Casa
@@ -84,7 +93,7 @@ export default function SidebarFilters({ filters, setFilters }) {
                   : "bg-[#FFE5DA] text-[#E94D0C]"
               }`}
               onClick={() =>
-                setFilters((f) => ({ ...f, tipoImovel: "apartamento" }))
+                setFilters((f) => ({ ...f, tipoImovel: f.tipoImovel === "apartamento" ? "" : "apartamento" }))
               }
             >
               <FaBuilding size={18} />
@@ -92,9 +101,7 @@ export default function SidebarFilters({ filters, setFilters }) {
             </button>
           </div>
         </div>
-
         <div className="border-t border-[#E5E5E5] my-4" />
-
         {/* Preço */}
         <div className="mb-6">
           <label className="block text-xs font-semibold text-[#222] mb-2">
@@ -121,9 +128,7 @@ export default function SidebarFilters({ filters, setFilters }) {
             />
           </div>
         </div>
-
         <div className="border-t border-[#E5E5E5] my-4" />
-
         {/* Quantidade de quartos */}
         <div className="mb-6">
           <label className="block text-xs font-semibold text-[#222] mb-2">
@@ -134,20 +139,19 @@ export default function SidebarFilters({ filters, setFilters }) {
               <button
                 key={q}
                 className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  filters.quartos === q
+                  Number(filters.quartos) === q
                     ? "bg-[#E94D0C] text-white"
                     : "bg-[#FFE5DA] text-[#E94D0C]"
                 }`}
-                onClick={() => setFilters((f) => ({ ...f, quartos: q }))}
+                onClick={() => toggleNumericFilter("quartos", q)}
+                type="button"
               >
                 +{q}
               </button>
             ))}
           </div>
         </div>
-
         <div className="border-t border-[#E5E5E5] my-4" />
-
         {/* Banheiros */}
         <div className="mb-6">
           <label className="block text-xs font-semibold text-[#222] mb-2">
@@ -158,20 +162,19 @@ export default function SidebarFilters({ filters, setFilters }) {
               <button
                 key={b}
                 className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  filters.banheiros === b
+                  Number(filters.banheiros) === b
                     ? "bg-[#E94D0C] text-white"
                     : "bg-[#FFE5DA] text-[#E94D0C]"
                 }`}
-                onClick={() => setFilters((f) => ({ ...f, banheiros: b }))}
+                onClick={() => toggleNumericFilter("banheiros", b)}
+                type="button"
               >
                 +{b}
               </button>
             ))}
           </div>
         </div>
-
         <div className="border-t border-[#E5E5E5] my-4" />
-
         {/* Garagens */}
         <div>
           <label className="block text-xs font-semibold text-[#222] mb-2">
@@ -182,11 +185,12 @@ export default function SidebarFilters({ filters, setFilters }) {
               <button
                 key={g}
                 className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  filters.garagens === g
+                  Number(filters.garagens) === g
                     ? "bg-[#E94D0C] text-white"
                     : "bg-[#FFE5DA] text-[#E94D0C]"
                 }`}
-                onClick={() => setFilters((f) => ({ ...f, garagens: g }))}
+                onClick={() => toggleNumericFilter("garagens", g)}
+                type="button"
               >
                 +{g}
               </button>

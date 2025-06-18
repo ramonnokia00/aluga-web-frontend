@@ -1,4 +1,6 @@
 import React from "react";
+import PropertyCard from "../components/PropertyCard";
+import imagemCasa from "../assets/imagemcasa.png";
 
 const Favoritos = () => {
   // Exemplo de lista de favoritos (futuramente você pode puxar via API ou Context)
@@ -11,18 +13,23 @@ const Favoritos = () => {
       {favoritos.length === 0 ? (
         <p className="text-gray-500">Você ainda não adicionou nenhum imóvel aos favoritos.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {favoritos.map((item, index) => (
-            <div key={index} className="bg-white p-4 rounded shadow">
-              <img 
-                src={item.imagem || "/no-image.png"} 
-                alt={item.nome} 
-                className="w-full h-40 object-cover rounded mb-2" 
-              />
-              <h2 className="text-lg font-semibold">{item.nome}</h2>
-              <p className="text-gray-600">{item.descricao}</p>
-              <p className="text-[#DF4300] font-bold mt-2">R$ {item.preco}</p>
-            </div>
+        <div className="flex flex-col gap-6">
+          {favoritos.map((imovel) => (
+            <PropertyCard
+              key={imovel.imovel_id}
+              image={imovel.imovel_imagem || imagemCasa}
+              address={`${imovel.imovel_logradouro}, ${imovel.imovel_numero}`}
+              neighborhood={imovel.imovel_bairro}
+              city={`${imovel.imovel_cidade} - ${imovel.imovel_estado}`}
+              description={`${imovel.imovel_tipo}\n${imovel.imovel_descricao}`}
+              area={imovel.imovel_area}
+              bedrooms={imovel.imovel_quartos}
+              garages={imovel.imovel_garagens}
+              price={imovel.imovel_valor}
+              onContact={() => alert("Contato!")}
+              isFavorite={true}
+              onFavorite={() => {}}
+            />
           ))}
         </div>
       )}

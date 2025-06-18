@@ -4,6 +4,7 @@ import Imgap from "../assets/img-apartamento.png";
 import Botao from "../assets/botao+1.png";
 import Numero from "../assets/numero+1.png";
 import Botao3 from "../assets/botao3.png";
+import PropertyCard from "../components/PropertyCard";
 
 
 
