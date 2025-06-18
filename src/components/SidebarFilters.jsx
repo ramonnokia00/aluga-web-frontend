@@ -1,6 +1,64 @@
 import React from "react";
 import { FaHome, FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 
+const ESTADOS = [
+  { nome: "Acre", sigla: "AC" },
+  { nome: "Alagoas", sigla: "AL" },
+  { nome: "Amapá", sigla: "AP" },
+  { nome: "Amazonas", sigla: "AM" },
+  { nome: "Bahia", sigla: "BA" },
+  { nome: "Ceará", sigla: "CE" },
+  { nome: "Distrito Federal", sigla: "DF" },
+  { nome: "Espírito Santo", sigla: "ES" },
+  { nome: "Goiás", sigla: "GO" },
+  { nome: "Maranhão", sigla: "MA" },
+  { nome: "Mato Grosso", sigla: "MT" },
+  { nome: "Mato Grosso do Sul", sigla: "MS" },
+  { nome: "Minas Gerais", sigla: "MG" },
+  { nome: "Pará", sigla: "PA" },
+  { nome: "Paraíba", sigla: "PB" },
+  { nome: "Paraná", sigla: "PR" },
+  { nome: "Pernambuco", sigla: "PE" },
+  { nome: "Piauí", sigla: "PI" },
+  { nome: "Rio de Janeiro", sigla: "RJ" },
+  { nome: "Rio Grande do Norte", sigla: "RN" },
+  { nome: "Rio Grande do Sul", sigla: "RS" },
+  { nome: "Rondônia", sigla: "RO" },
+  { nome: "Roraima", sigla: "RR" },
+  { nome: "Santa Catarina", sigla: "SC" },
+  { nome: "São Paulo", sigla: "SP" },
+  { nome: "Sergipe", sigla: "SE" },
+  { nome: "Tocantins", sigla: "TO" },
+];
+
+function handleLocalizacaoChange(e, setFilters) {
+  const value = e.target.value.trim();
+  // Tenta identificar se é um estado
+  const estado = ESTADOS.find(
+    (uf) =>
+      uf.nome.toLowerCase() === value.toLowerCase() ||
+      uf.sigla.toLowerCase() === value.toLowerCase()
+  );
+  if (estado) {
+    setFilters((f) => ({
+      ...f,
+      estado: estado.sigla,
+      cidade: "",
+      bairro: "",
+      localizacao: value,
+    }));
+    return;
+  }
+  // Se não for estado, limpa estado e tenta cidade/bairro
+  setFilters((f) => ({
+    ...f,
+    estado: "",
+    cidade: value,
+    bairro: "",
+    localizacao: value,
+  }));
+}
+
 export default function SidebarFilters({ filters, setFilters }) {
   // Função para alternar filtros numéricos (quartos, banheiros, garagens)
   const toggleNumericFilter = (key, value) => {
@@ -51,9 +109,7 @@ export default function SidebarFilters({ filters, setFilters }) {
               placeholder="Digite o bairro, rua ou cidade"
               className="w-full pl-10 pr-3 py-2 rounded-lg bg-[#F5F5F5] border border-[#E5E5E5] text-sm text-[#222] placeholder-[#BDBDBD] outline-none"
               value={filters.localizacao}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, localizacao: e.target.value }))
-              }
+              onChange={(e) => handleLocalizacaoChange(e, setFilters)}
             />
           </div>
           {filters.localizacao && (
@@ -61,143 +117,18 @@ export default function SidebarFilters({ filters, setFilters }) {
               {filters.localizacao}{" "}
               <span
                 className="ml-1 cursor-pointer"
-                onClick={() => setFilters((f) => ({ ...f, localizacao: "" }))}
+                onClick={() =>
+                  setFilters((f) => ({
+                    ...f,
+                    localizacao: "",
+                    estado: "",
+                    cidade: "",
+                    bairro: "",
+                  }))
+                }
               >
                 ×
               </span>
             </span>
           )}
         </div>
-        <div className="border-t border-[#E5E5E5] my-4" />
-        {/* Tipos de imóveis */}
-        <div className="mb-6">
-          <label className="block text-xs font-semibold text-[#222] mb-2">
-            Tipos de imóveis
-          </label>
-          <div className="flex gap-2">
-            <button
-              className={`flex-1 flex flex-col items-center justify-center gap-1 px-4 py-3 rounded-lg font-semibold text-xs border-none ${
-                filters.tipoImovel === "casa"
-                  ? "bg-[#E94D0C] text-white"
-                  : "bg-[#FFE5DA] text-[#E94D0C]"
-              }`}
-              onClick={() => setFilters((f) => ({ ...f, tipoImovel: f.tipoImovel === "casa" ? "" : "casa" }))}
-            >
-              <FaHome size={18} />
-              Casa
-            </button>
-            <button
-              className={`flex-1 flex flex-col items-center justify-center gap-1 px-4 py-3 rounded-lg font-semibold text-xs border-none ${
-                filters.tipoImovel === "apartamento"
-                  ? "bg-[#E94D0C] text-white"
-                  : "bg-[#FFE5DA] text-[#E94D0C]"
-              }`}
-              onClick={() =>
-                setFilters((f) => ({ ...f, tipoImovel: f.tipoImovel === "apartamento" ? "" : "apartamento" }))
-              }
-            >
-              <FaBuilding size={18} />
-              Apartamento
-            </button>
-          </div>
-        </div>
-        <div className="border-t border-[#E5E5E5] my-4" />
-        {/* Preço */}
-        <div className="mb-6">
-          <label className="block text-xs font-semibold text-[#222] mb-2">
-            Preço a partir de
-          </label>
-          <div className="flex gap-2">
-            <input
-              type="number"
-              placeholder="0"
-              className="w-1/2 bg-[#F5F5F5] border border-[#E5E5E5] rounded-lg px-3 py-2 text-sm text-[#222] placeholder-[#BDBDBD] outline-none"
-              value={filters.precoMin}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, precoMin: e.target.value }))
-              }
-            />
-            <input
-              type="number"
-              placeholder="0"
-              className="w-1/2 bg-[#F5F5F5] border border-[#E5E5E5] rounded-lg px-3 py-2 text-sm text-[#222] placeholder-[#BDBDBD] outline-none"
-              value={filters.precoMax}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, precoMax: e.target.value }))
-              }
-            />
-          </div>
-        </div>
-        <div className="border-t border-[#E5E5E5] my-4" />
-        {/* Quantidade de quartos */}
-        <div className="mb-6">
-          <label className="block text-xs font-semibold text-[#222] mb-2">
-            Quantidade de quartos
-          </label>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4].map((q) => (
-              <button
-                key={q}
-                className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  Number(filters.quartos) === q
-                    ? "bg-[#E94D0C] text-white"
-                    : "bg-[#FFE5DA] text-[#E94D0C]"
-                }`}
-                onClick={() => toggleNumericFilter("quartos", q)}
-                type="button"
-              >
-                +{q}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="border-t border-[#E5E5E5] my-4" />
-        {/* Banheiros */}
-        <div className="mb-6">
-          <label className="block text-xs font-semibold text-[#222] mb-2">
-            Banheiros
-          </label>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4].map((b) => (
-              <button
-                key={b}
-                className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  Number(filters.banheiros) === b
-                    ? "bg-[#E94D0C] text-white"
-                    : "bg-[#FFE5DA] text-[#E94D0C]"
-                }`}
-                onClick={() => toggleNumericFilter("banheiros", b)}
-                type="button"
-              >
-                +{b}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="border-t border-[#E5E5E5] my-4" />
-        {/* Garagens */}
-        <div>
-          <label className="block text-xs font-semibold text-[#222] mb-2">
-            Garagens
-          </label>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4].map((g) => (
-              <button
-                key={g}
-                className={`px-5 py-2 rounded-lg font-semibold text-xs border-none ${
-                  Number(filters.garagens) === g
-                    ? "bg-[#E94D0C] text-white"
-                    : "bg-[#FFE5DA] text-[#E94D0C]"
-                }`}
-                onClick={() => toggleNumericFilter("garagens", g)}
-                type="button"
-              >
-                +{g}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </aside>
-  );
-}

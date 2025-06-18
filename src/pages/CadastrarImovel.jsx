@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-
+import { useLogin } from "../contexts/LoginContext";
+import { useNavigate } from "react-router-dom";
 import { FaUpload, FaFileImage } from "react-icons/fa";
 import api from "../services/api";
 
 export default function CadastrarImovel() {
+  const { usuario } = useLogin();
   const [form, setForm] = useState({
     imovel_nome: "",
     imovel_cidade: "",
@@ -16,6 +18,8 @@ export default function CadastrarImovel() {
   const [valorFormatado, setValorFormatado] = useState("");
   const [imagens, setImagens] = useState([]);
   const [mensagem, setMensagem] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -36,17 +40,27 @@ export default function CadastrarImovel() {
     setForm({ ...form, imovel_valor: valor });
   }
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
+    if (!usuario) {
+      setMensagem("Você precisa estar logado para cadastrar um imóvel.");
+      return;
+    }
+    setShowConfirm(true);
+  }
+
+  async function confirmarCadastro() {
+    setShowConfirm(false);
     const formData = new FormData();
     Object.entries(form).forEach(([key, value]) => formData.append(key, value));
     imagens.forEach((img) => formData.append("imagens", img));
-
+    formData.append("usuario_id", usuario.usuario_id);
     try {
       await api.post("/imoveis", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMensagem("Imóvel cadastrado com sucesso!");
+      setTimeout(() => navigate("/imoveis"), 1200);
       setForm({
         imovel_nome: "",
         imovel_cidade: "",
@@ -193,6 +207,29 @@ export default function CadastrarImovel() {
           </div>
         )}
       </form>
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white rounded-lg p-8 shadow-lg flex flex-col gap-4 min-w-[320px]">
+            <p className="text-lg font-semibold text-[#E94D0C]">
+              Tem certeza que deseja cadastrar este imóvel?
+            </p>
+            <div className="flex gap-4 justify-end">
+              <button
+                onClick={confirmarCadastro}
+                className="bg-[#E94D0C] text-white px-4 py-2 rounded font-bold"
+              >
+                Confirmar
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="bg-gray-200 px-4 py-2 rounded font-bold"
+              >
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
