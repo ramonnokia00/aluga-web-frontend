@@ -16,17 +16,17 @@ export default function Header() {
     let overlayElement = document.querySelector('#overlay');
     let gavetaElement = document.querySelector("#gaveta");
 
-    if (overlayElement.classList.contains('invisible')){
-        overlayElement.classList.remove("invisible", "opacity-0");
-        gavetaElement.classList.remove("-right-full");
-        gavetaElement.classList.add("right-0");
+    if (overlayElement.classList.contains('invisible')) {
+      overlayElement.classList.remove("invisible", "opacity-0");
+      gavetaElement.classList.remove("-right-full");
+      gavetaElement.classList.add("right-0");
     }
     else {
-        overlayElement.classList.add('invisible' , 'opacity-0');
-        gavetaElement.classList.add("-right-full");
-        gavetaElement.classList.remove("right-0");
+      overlayElement.classList.add('invisible', 'opacity-0');
+      gavetaElement.classList.add("-right-full");
+      gavetaElement.classList.remove("right-0");
     }
-}
+  }
 
 
 
@@ -50,7 +50,7 @@ export default function Header() {
         </NavLink>
       ) : (
         <div className="flex items-center gap-2">
-          <div className="items-center flex gap-3 mr-5">
+          <div className="items-center flex gap-3 mr-5 xl:invisible">
             <img src={favoritos} alt="" />
             <p className="text-gray font-semibold cursor-pointer hover:underline"><NavLink to={"/favoritos"}>Favoritos</NavLink></p>
           </div>
@@ -71,15 +71,44 @@ export default function Header() {
             className="w-8 h-8 rounded-full object-cover border cursor-pointer"
             onClick={mostrarOverlay}
           />
-           <div onclick="mostrarOverlay()" id="overlay"
-                class="w-full h-full bg-black/70 absolute top-0 left-0 duration-200 opacity-0 invisible">
+          <div
+            id="overlay"
+            onClick={mostrarOverlay} // fecha ao clicar no overlay
+            className="w-full h-full bg-black/70 absolute top-0 left-0 duration-200 opacity-0 invisible flex justify-end" // flex pra jogar a gaveta pra direita
+          >
+            <div
+              id="gaveta"
+              onClick={(e) => e.stopPropagation()} // impede que clique dentro da gaveta feche o overlay
+              className="min-w-[350px] h-screen bg-white p-4 duration-200"
+            >
+              <h3 className="flex justify-between items-center text-2xl">
+                <span className="text-[#DF4300] font-bold">
+                  {usuario.nome || usuario.usuario_nome}
+                </span>
+                <img
+                  src={usuario.foto || usuario.foto_url || "/user-default.png"}
+                  alt="Foto"
+                  className="w-8 h-8 rounded-full object-cover border cursor-pointer"
+                  onClick={mostrarOverlay}
+                />
+
+                <box-icon type='solid' name='user-x' onClick={mostrarOverlay} className="w-[40px] h-[40px] bg-laranja fill-white p-2 cursor-pointer rounded-full hover:bg-laranja2 duration-200"></box-icon>
+
+
+              </h3>
+              
+              <div className="mt-2 flex items-center gap-4 mb-4">
+                <box-icon name='user' type='solid' className="fill-gray-400"></box-icon>
+                <h2 className="text-semibold text-gray-400 cursor-pointer hover:underline text-2xl">Usuarios</h2>
+              </div>
+              <div className="flex items-center gap-4">
+                <box-icon name='building-house' ></box-icon>
+              <h2 className="text-semibold text-gray-400 cursor-pointer hover:underline text-2xl"><NavLink to={"/cadastrar-imovel"}>Cadastrar Casa</NavLink></h2>
+              </div>
+              
             </div>
-            <div id="gaveta" className="min-w-[350px] h-screen bg-white p-4 absolute top-0 -right-full duration-200 invisible">
-                <h3 onclick="mostrarOverlay()" className="flex justify-between items-center text-2xl ">Cadastro
-                    <img src={x} alt=""  className="w-[40px] h-[40px] bg-laranja fill-white p-2 cursor-pointer rounded-full hover:bg-pink-700 duration-200"
-                    onClick={mostrarOverlay}/>
-                </h3>
-                </div>
+          </div>
+
         </div>
       )}
     </header>
