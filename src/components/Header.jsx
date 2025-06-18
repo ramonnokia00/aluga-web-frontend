@@ -50,10 +50,13 @@ export default function Header() {
         </NavLink>
       ) : (
         <div className="flex items-center gap-2">
+
+
           <div className="items-center flex gap-3 mr-5">
             <img src={favoritos} alt="" />
             <p className="text-gray font-semibold cursor-pointer hover:underline"><NavLink to={"/favoritos"}>Favoritos</NavLink></p>
           </div>
+
           <div className="flex flex-col items-start">
             <span className="text-[#DF4300] font-bold">
               {usuario.nome || usuario.usuario_nome}
@@ -66,6 +69,18 @@ export default function Header() {
             </button>
           </div>
           <img
+
+            src={
+              usuario.usuario_imagem
+                ? usuario.usuario_imagem.startsWith("http")
+                  ? usuario.usuario_imagem
+                  : `http://localhost:8000${usuario.usuario_imagem}`
+                : usuario.foto || usuario.foto_url || "/user-default.png"
+            }
+            alt="Foto"
+            className="w-8 h-8 rounded-full object-cover border"
+          />
+
             src={usuario.foto || usuario.foto_url || "/user-default.png"}
             alt="Foto"
             className="w-8 h-8 rounded-full object-cover border cursor-pointer"
