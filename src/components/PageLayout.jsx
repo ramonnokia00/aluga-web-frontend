@@ -1,15 +1,12 @@
 import { Outlet } from "react-router";
 import Header from "./Header";
-import Footer from "./Footer";
-import Abas from "../pages/Abas";
+import Footer from "./footer";
 
 const PageLayout = () => {
     return ( <>
-<Header/>
-<Outlet/>
-<Abas/>
-<Footer/>
-        
+    <Header/>
+    <Footer/>
+
     </> );
 }
  

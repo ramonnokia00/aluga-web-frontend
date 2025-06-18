@@ -1,106 +1,47 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import api from "../services/api";
+// import { createContext, useState, useContext, useEffect } from 'react';
 
-export const LoginContext = createContext();
+// const LoginContext = createContext();
 
-export function LoginProvider({ children }) {
-  const [usuario, setUsuario] = useState(() => {
-    const user = localStorage.getItem("usuario");
-    if (!user || user === "undefined" || user === "null") return null;
-    try {
-      return JSON.parse(user);
-    } catch {
-      return null;
-    }
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+// export const LoginProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState('');
 
-  const login = async (email, senha) => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await api.post("/login", {
-        usuario_email: email,
-        usuario_senha: senha,
-      });
-      if (
-        res.data &&
-        res.data.tipo === "success" &&
-        res.data.usuario &&
-        res.data.token
-      ) {
-        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
-        localStorage.setItem("token", res.data.token);
-        setUsuario(res.data.usuario);
-        setLoading(false);
-        return true;
-      } else {
-        setError(res.data.mensagem || "Email ou senha inválidos");
-        setLoading(false);
-        return false;
-      }
-    } catch (err) {
-      setError("Email ou senha inválidos");
-      setLoading(false);
-      return false;
-    }
-  };
+//   const login = async (email, senha) => {
+//     setLoading(true);
+//     setError('');
+//     try {
+//       const response = await fetch(`http://localhost:3000/usuarios?email=${email}&senha=${senha}`);
+//       const data = await response.json();
+//       if (data.length === 0) {
+//         throw new Error('Usuário ou senha inválidos');
+//       }
+//       setUser(data[0]);
+//       localStorage.setItem('user', JSON.stringify(data[0]));
+//     } catch (err) {
+//       setError(err.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  // Função para cadastro de usuário
-  const register = async (dados) => {
-    setLoading(true);
-    setError("");
-    try {
-      const res = await api.post("/usuarios", dados, {
-        headers:
-          dados instanceof FormData
-            ? { "Content-Type": "multipart/form-data" }
-            : {},
-      });
-      if (res.data && res.data.usuario && res.data.token) {
-        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
-        localStorage.setItem("token", res.data.token);
-        setUsuario(res.data.usuario);
-        setLoading(false);
-        return { sucesso: true };
-      } else {
-        setError(res.data.mensagem || "Erro ao cadastrar.");
-        setLoading(false);
-        return { sucesso: false, erro: res.data.mensagem };
-      }
-    } catch (err) {
-      setError("Erro ao cadastrar usuário");
-      setLoading(false);
-      return { sucesso: false };
-    }
-  };
+//   const logout = () => {
+//     setUser(null);
+//     localStorage.removeItem('user');
+//   };
 
-  const logout = () => {
-    localStorage.removeItem("usuario");
-    setUsuario(null);
-  };
+//   useEffect(() => {
+//     const savedUser = localStorage.getItem('user');
+//     if (savedUser) {
+//       setUser(JSON.parse(savedUser));
+//     }
+//   }, []);
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem("usuario");
-    if (!savedUser || savedUser === "undefined" || savedUser === "null") {
-      setUsuario(null);
-      return;
-    }
-    try {
-      setUsuario(JSON.parse(savedUser));
-    } catch {
-      setUsuario(null);
-    }
-  }, []);
+//   return (
+//     <LoginContext.Provider value={{ user, login, logout, loading, error }}>
+//       {children}
+//     </LoginContext.Provider>
+//   );
+// };
 
-  return (
-    <LoginContext.Provider
-      value={{ usuario, login, logout, loading, error, register, setUsuario }}
-    >
-      {children}
-    </LoginContext.Provider>
-  );
-}
-
-export const useLogin = () => useContext(LoginContext);
+// export const useLogin = () => useContext(LoginContext);
