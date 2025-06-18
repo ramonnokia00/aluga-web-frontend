@@ -49,7 +49,7 @@ export default function Header() {
       {!usuario ? (
         <NavLink
           to="/login"
-          className="bg-laranja-20 cursor-pointer flex items-center justify-center gap-2 w-[147px] h-[50px] rounded font-bold text-white"
+          className="hover:bg-orange-700 duration-200 bg-orange-500 cursor-pointer flex items-center justify-center gap-2 w-[147px] h-[50px] rounded font-bold text-white"
         >
           <img src={iconeboneco} alt="icone Entrar" />
           Entrar
@@ -57,10 +57,6 @@ export default function Header() {
       ) : (
         <div className="flex items-center gap-2">
           <div className="items-center flex gap-3 mr-5 xl:invisible">
-            <img src={favoritos} alt="" />
-            <p className="text-gray font-semibold cursor-pointer hover:underline">
-              <NavLink to={"/favoritos"}>Favoritos</NavLink>
-            </p>
           </div>
           <div className="flex flex-col items-start">
             <span className="text-[#DF4300] font-bold">

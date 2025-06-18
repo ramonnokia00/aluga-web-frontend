@@ -52,7 +52,7 @@ export default function Cadastro() {
 
         <div style={{ marginBottom: 12 }}>
           <label>Nome</label>
-          <input
+          <input className="border"
             style={{ width: "100%" }}
             value={nome}
             onChange={(e) => setNome(e.target.value)}
@@ -63,6 +63,7 @@ export default function Cadastro() {
         <div style={{ marginBottom: 12 }}>
           <label>Email</label>
           <input
+          className="border"
             style={{ width: "100%" }}
             type="email"
             value={email}
@@ -74,6 +75,7 @@ export default function Cadastro() {
         <div style={{ marginBottom: 12 }}>
           <label>Telefone</label>
           <input
+          className="border"
             style={{ width: "100%" }}
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
@@ -83,6 +85,7 @@ export default function Cadastro() {
         <div style={{ marginBottom: 12 }}>
           <label>Nascimento</label>
           <input
+          className="border"
             style={{ width: "100%" }}
             type="date"
             value={nascimento}
@@ -93,6 +96,7 @@ export default function Cadastro() {
         <div style={{ marginBottom: 12 }}>
           <label>Senha</label>
           <input
+          className="border"
             style={{ width: "100%" }}
             type="password"
             value={senha}
