@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import SidebarFilters from "../components/SidebarFilters";
 import PropertyCard from "../components/PropertyCard";
 import api from "../services/api";
@@ -7,8 +8,13 @@ import FiltroResumo from "../components/FiltroResumo";
 
 export default function Imoveis() {
   const { usuario } = useLogin();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const estadoSigla = params.get("estado");
+  const nomeEstado = params.get("nomeEstado");
+
   const [filters, setFilters] = useState({
-    tipoNegocio: "alugar",
+    tipoNegocio: "",
     localizacao: "",
     tipoImovel: "",
     precoMin: "",
@@ -16,16 +22,16 @@ export default function Imoveis() {
     quartos: "",
     banheiros: "",
     garagens: "",
-    estado: "",
+    estado: estadoSigla || "",
     nomeImovel: "",
     bairro: "",
     cidade: "",
   });
+
   const [imoveis, setImoveis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [ordem, setOrdem] = useState("relevancia");
 
-  // Busca imóveis do backend já filtrados
   useEffect(() => {
     setLoading(true);
     const params = {};
@@ -39,10 +45,11 @@ export default function Imoveis() {
     if (filters.quartos) params.quartos = filters.quartos;
     if (filters.banheiros) params.banheiros = filters.banheiros;
     if (filters.garagens) params.garagens = filters.garagens;
+
     api
       .get("/imoveis", { params })
       .then((res) => setImoveis(res.data))
-      .catch((err) => setImoveis([]))
+      .catch(() => setImoveis([]))
       .finally(() => setLoading(false));
   }, [
     filters.estado,
@@ -57,8 +64,7 @@ export default function Imoveis() {
     filters.garagens,
   ]);
 
-  // Ordenação dos imóveis
-  function ordenarImoveis(lista) {
+  const ordenarImoveis = (lista) => {
     if (ordem === "menor-preco") {
       return [...lista].sort(
         (a, b) => Number(a.imovel_valor) - Number(b.imovel_valor)
@@ -69,13 +75,11 @@ export default function Imoveis() {
         (a, b) => Number(b.imovel_valor) - Number(a.imovel_valor)
       );
     }
-    // "relevancia" ou padrão
     return lista;
-  }
+  };
 
   const imoveisOrdenados = ordenarImoveis(imoveis);
 
-  // Breadcrumb dinâmico
   const breadcrumb = [
     filters.estado || "Estado",
     filters.cidade || "Cidade",
@@ -96,7 +100,6 @@ export default function Imoveis() {
             />
           </aside>
           <main className="flex-1">
-            {/* Container superior sempre visível */}
             <div className="bg-white rounded-xl border border-[#E5E5E5] flex flex-col md:flex-row md:items-center md:justify-between px-6 py-4 mb-6 shadow-sm">
               <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-6 w-full">
                 <div className="flex-1">
@@ -137,14 +140,14 @@ export default function Imoveis() {
                       ? ` em ${filters.estado}`
                       : ""}
                   </h2>
-                  {/* Chips de filtros ativos aparecem logo abaixo do título, se houver filtros */}
                   <FiltroResumo
                     filters={filters}
-                    onRemove={(key) => setFilters((f) => ({ ...f, [key]: "" }))}
+                    onRemove={(key) =>
+                      setFilters((f) => ({ ...f, [key]: "" }))
+                    }
                   />
                 </div>
               </div>
-              {/* Ordenação */}
               <div className="mt-4 md:mt-0">
                 <label className="block text-xs text-gray-400 mb-1">
                   Ordenar por
@@ -162,32 +165,33 @@ export default function Imoveis() {
             </div>
             <div className="flex flex-col gap-6">
               {loading && <div>Carregando imóveis...</div>}
-              {!loading && imoveis.length === 0 && (
+              {!loading && imoveisOrdenados.length === 0 && (
                 <div>Nenhum imóvel encontrado.</div>
               )}
-              {imoveisOrdenados.map((imovel) => (
-                <PropertyCard
-                  key={imovel.imovel_id}
-                  image={
-                    imovel.imovel_imagem &&
-                    !imovel.imovel_imagem.startsWith("http")
-                      ? `http://localhost:8000${imovel.imovel_imagem}`
-                      : imovel.imovel_imagem || "/user-default.png"
-                  }
-                  address={imovel.imovel_logradouro}
-                  neighborhood={imovel.imovel_bairro}
-                  city={`${imovel.imovel_cidade} - ${imovel.imovel_estado}`}
-                  description={imovel.imovel_descricao}
-                  area={imovel.imovel_area}
-                  bedrooms={imovel.imovel_quartos}
-                  garages={imovel.imovel_garagens}
-                  bathrooms={imovel.imovel_banheiros}
-                  price={imovel.imovel_valor}
-                  onContact={() => alert("Contato!")}
-                  isFavorite={false}
-                  onFavorite={() => alert("Favorito!")}
-                />
-              ))}
+              {!loading &&
+                imoveisOrdenados.map((imovel) => (
+                  <PropertyCard
+                    key={imovel.imovel_id}
+                    image={
+                      imovel.imovel_imagem &&
+                      !imovel.imovel_imagem.startsWith("http")
+                        ? `http://localhost:8000${imovel.imovel_imagem}`
+                        : imovel.imovel_imagem || "/user-default.png"
+                    }
+                    address={imovel.imovel_logradouro}
+                    neighborhood={imovel.imovel_bairro}
+                    city={`${imovel.imovel_cidade} - ${imovel.imovel_estado}`}
+                    description={imovel.imovel_descricao}
+                    area={imovel.imovel_area}
+                    bedrooms={imovel.imovel_quartos}
+                    garages={imovel.imovel_garagens}
+                    bathrooms={imovel.imovel_banheiros}
+                    price={imovel.imovel_valor}
+                    onContact={() => alert("Contato!")}
+                    isFavorite={false}
+                    onFavorite={() => alert("Favorito!")}
+                  />
+                ))}
             </div>
           </main>
         </div>

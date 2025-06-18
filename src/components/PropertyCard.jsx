@@ -82,21 +82,5 @@ const PropertyCard = ({
 
 export default PropertyCard;
 
-/* Uso do componente PropertyCard com os dados do imóvel */
-/*
-<PropertyCard
-  key={imovel.id}
-  image={imovel.imagem}
-  address={imovel.endereco}
-  neighborhood={imovel.bairro}
-  city={`${imovel.cidade} - ${imovel.uf}`}
-  description={`${imovel.titulo}\n${imovel.descricao}`}
-  area={imovel.area}
-  bedrooms={imovel.quartos}
-  garages={imovel.garagens}
-  price={imovel.preco}
-  onContact={() => alert("Contato!")}
-  isFavorite={false}
-  onFavorite={() => alert("Favorito!")}
-/>
-*/
+
+
