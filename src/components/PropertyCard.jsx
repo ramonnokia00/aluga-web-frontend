@@ -1,5 +1,5 @@
 import React from "react";
-import { FaHeart, FaBed, FaCar } from "react-icons/fa";
+import { FaHeart, FaBed, FaCar, FaBath } from "react-icons/fa";
 
 const PropertyCard = ({
   image,
@@ -10,6 +10,7 @@ const PropertyCard = ({
   area,
   bedrooms,
   garages,
+  bathrooms,
   price,
   onContact,
   isFavorite,
@@ -47,13 +48,17 @@ const PropertyCard = ({
           </p>
         </div>
         {/* Detalhes */}
-        <div className="flex items-center gap-8 mt-4 text-gray-500 text-base">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mt-4 text-gray-500 text-base">
           <span>{area ? `${area}m²` : "- m²"}</span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 min-w-[90px]">
             <FaBed className="inline-block mb-[2px]" />{" "}
             {bedrooms ? `${bedrooms} Quartos` : "Quartos"}
           </span>
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1 min-w-[110px]">
+            <FaBath className="inline-block mb-[2px]" />{" "}
+            {bathrooms ? `${bathrooms} Banheiros` : "Banheiros"}
+          </span>
+          <span className="flex items-center gap-1 min-w-[100px]">
             <FaCar className="inline-block mb-[2px]" />{" "}
             {garages ? `${garages} Garagem` : "Garagem"}
           </span>

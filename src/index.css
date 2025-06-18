@@ -1,10 +1,32 @@
 @import "tailwindcss";
 @theme {
-        --color-laranja: #E04300;
-        --color-laranja2: #DF4300;
-        --color-laranja-70: #E0430070;
-        --color-laranja-20: #E0430020;
-        --color-gray: #959595;
-        --color-cinzaborda-15: #00000015;
-        --color-black-05: #00000005;
-      }
+  --color-laranja: #e04300;
+  --color-laranja2: #df4300;
+  --color-laranja-70: #e0430070;
+  --color-laranja-20: #e0430020;
+  --color-gray: #959595;
+  --color-cinzaborda-15: #00000015;
+  --color-black-05: #00000005;
+}
+.animate-slideIn {
+  animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.animate-slideInRight {
+  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

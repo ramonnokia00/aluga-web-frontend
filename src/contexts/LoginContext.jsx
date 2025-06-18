@@ -58,6 +58,16 @@ export function LoginProvider({ children }) {
             ? { "Content-Type": "multipart/form-data" }
             : {},
       });
+      if (
+        res.data &&
+        res.data.tipo === "error" &&
+        res.data.mensagem &&
+        res.data.mensagem.includes("e-mail já cadastrado")
+      ) {
+        setError("E-mail já cadastrado. Faça login ou recupere sua senha.");
+        setLoading(false);
+        return { sucesso: false, erro: "E-mail já cadastrado." };
+      }
       if (res.data && res.data.usuario && res.data.token) {
         localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
         localStorage.setItem("token", res.data.token);

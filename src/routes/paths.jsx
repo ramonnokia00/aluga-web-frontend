@@ -7,6 +7,9 @@ import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import EsqueciSenha from "../pages/EsqueciSenha";
 import CadastrarImovel from "../pages/CadastrarImovel";
+import Favoritos from "../pages/Favoritos";
+import MeuPerfil from "../pages/MeuPerfil";
+import Configuracoes from "../pages/Configuracoes";
 
 import PageLayout from "../Layouts/PageLayout";
 import AuthLayout from "../Layouts/AuthLayout";
@@ -22,7 +25,7 @@ const Paths = () => {
           <Route path="login" element={<Login />} />
           <Route path="cadastro" element={<Cadastro />} />
           <Route path="esqueci-senha" element={<EsqueciSenha />} />
-          
+
           <Route
             path="cadastrar-imovel"
             element={
@@ -31,9 +34,32 @@ const Paths = () => {
               </PrivateRoute>
             }
           />
+          <Route
+            path="meu-perfil"
+            element={
+              <PrivateRoute>
+                <MeuPerfil />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="favoritos"
+            element={
+              <PrivateRoute>
+                <Favoritos />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="configuracoes"
+            element={
+              <PrivateRoute>
+                <Configuracoes />
+              </PrivateRoute>
+            }
+          />
         </Route>
-        <Route path="/auth" element={<AuthLayout/>}>
-        </Route>
+        <Route path="/auth" element={<AuthLayout />}></Route>
       </Routes>
     </BrowserRouter>
   );

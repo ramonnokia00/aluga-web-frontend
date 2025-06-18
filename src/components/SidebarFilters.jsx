@@ -1,6 +1,64 @@
 import React from "react";
 import { FaHome, FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 
+const ESTADOS = [
+  { nome: "Acre", sigla: "AC" },
+  { nome: "Alagoas", sigla: "AL" },
+  { nome: "Amapá", sigla: "AP" },
+  { nome: "Amazonas", sigla: "AM" },
+  { nome: "Bahia", sigla: "BA" },
+  { nome: "Ceará", sigla: "CE" },
+  { nome: "Distrito Federal", sigla: "DF" },
+  { nome: "Espírito Santo", sigla: "ES" },
+  { nome: "Goiás", sigla: "GO" },
+  { nome: "Maranhão", sigla: "MA" },
+  { nome: "Mato Grosso", sigla: "MT" },
+  { nome: "Mato Grosso do Sul", sigla: "MS" },
+  { nome: "Minas Gerais", sigla: "MG" },
+  { nome: "Pará", sigla: "PA" },
+  { nome: "Paraíba", sigla: "PB" },
+  { nome: "Paraná", sigla: "PR" },
+  { nome: "Pernambuco", sigla: "PE" },
+  { nome: "Piauí", sigla: "PI" },
+  { nome: "Rio de Janeiro", sigla: "RJ" },
+  { nome: "Rio Grande do Norte", sigla: "RN" },
+  { nome: "Rio Grande do Sul", sigla: "RS" },
+  { nome: "Rondônia", sigla: "RO" },
+  { nome: "Roraima", sigla: "RR" },
+  { nome: "Santa Catarina", sigla: "SC" },
+  { nome: "São Paulo", sigla: "SP" },
+  { nome: "Sergipe", sigla: "SE" },
+  { nome: "Tocantins", sigla: "TO" },
+];
+
+function handleLocalizacaoChange(e, setFilters) {
+  const value = e.target.value.trim();
+  // Tenta identificar se é um estado
+  const estado = ESTADOS.find(
+    (uf) =>
+      uf.nome.toLowerCase() === value.toLowerCase() ||
+      uf.sigla.toLowerCase() === value.toLowerCase()
+  );
+  if (estado) {
+    setFilters((f) => ({
+      ...f,
+      estado: estado.sigla,
+      cidade: "",
+      bairro: "",
+      localizacao: value,
+    }));
+    return;
+  }
+  // Se não for estado, limpa estado e tenta cidade/bairro
+  setFilters((f) => ({
+    ...f,
+    estado: "",
+    cidade: value,
+    bairro: "",
+    localizacao: value,
+  }));
+}
+
 export default function SidebarFilters({ filters, setFilters }) {
   return (
     <aside className="bg-white border border-[#E5E5E5] rounded-2xl w-full md:w-80 flex flex-col p-0">
@@ -40,9 +98,7 @@ export default function SidebarFilters({ filters, setFilters }) {
               placeholder="Digite o bairro, rua ou cidade"
               className="w-full pl-10 pr-3 py-2 rounded-lg bg-[#F5F5F5] border border-[#E5E5E5] text-sm text-[#222] placeholder-[#BDBDBD] outline-none"
               value={filters.localizacao}
-              onChange={(e) =>
-                setFilters((f) => ({ ...f, localizacao: e.target.value }))
-              }
+              onChange={(e) => handleLocalizacaoChange(e, setFilters)}
             />
           </div>
           {filters.localizacao && (
@@ -50,13 +106,74 @@ export default function SidebarFilters({ filters, setFilters }) {
               {filters.localizacao}{" "}
               <span
                 className="ml-1 cursor-pointer"
-                onClick={() => setFilters((f) => ({ ...f, localizacao: "" }))}
+                onClick={() =>
+                  setFilters((f) => ({
+                    ...f,
+                    localizacao: "",
+                    estado: "",
+                    cidade: "",
+                    bairro: "",
+                  }))
+                }
               >
-                
+                ×
               </span>
             </span>
           )}
         </div>
+
+        {/* Chips de cidades e bairros (estilo FIFA) */}
+        {filters.estado && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {/* Chips de cidades - exemplo estático, troque por cidades reais se tiver */}
+            {["Cidade", "Cidade", "Cidade", "Cidade", "Cidade"].map(
+              (cidade, idx) => (
+                <button
+                  key={idx}
+                  className={`px-4 py-1 rounded-full border text-xs font-semibold transition-all ${
+                    filters.cidade && idx === 0
+                      ? "bg-[#E94D0C] text-white border-[#E94D0C]"
+                      : "bg-white text-gray-600 border-gray-300"
+                  }`}
+                  onClick={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      cidade: idx === 0 ? f.cidade : "",
+                      bairro: "",
+                    }))
+                  }
+                >
+                  {cidade}
+                </button>
+              )
+            )}
+          </div>
+        )}
+        {filters.cidade && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {/* Chips de bairros - exemplo estático, troque por bairros reais se tiver */}
+            {["Bairro", "Bairro", "Bairro", "Bairro", "Bairro"].map(
+              (bairro, idx) => (
+                <button
+                  key={idx}
+                  className={`px-4 py-1 rounded-full border text-xs font-semibold transition-all ${
+                    filters.bairro && idx === 0
+                      ? "bg-[#E94D0C] text-white border-[#E94D0C]"
+                      : "bg-white text-gray-600 border-gray-300"
+                  }`}
+                  onClick={() =>
+                    setFilters((f) => ({
+                      ...f,
+                      bairro: idx === 0 ? f.bairro : "",
+                    }))
+                  }
+                >
+                  {bairro}
+                </button>
+              )
+            )}
+          </div>
+        )}
 
         <div className="border-t border-[#E5E5E5] my-4" />
 
