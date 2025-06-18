@@ -46,13 +46,26 @@ export default function Imoveis() {
     if (filters.tipoImovel) params.tipo = filters.tipoImovel;
     if (filters.precoMin) params.precoMin = filters.precoMin;
     if (filters.precoMax) params.precoMax = filters.precoMax;
-    if (filters.quartos) params.quartos = filters.quartos;
-    if (filters.banheiros) params.banheiros = filters.banheiros;
-    if (filters.garagens) params.garagens = filters.garagens;
+    if (filters.quartos) params.quartos = Number(filters.quartos);
+    if (filters.banheiros) params.banheiros = Number(filters.banheiros);
+    if (filters.garagens) params.garagens = Number(filters.garagens);
 
     api
       .get("/imoveis", { params })
-      .then((res) => setImoveis(res.data))
+      .then((res) => {
+        let data = res.data;
+        // Filtro extra caso a API não filtre corretamente
+        if (filters.quartos) {
+          data = data.filter((i) => Number(i.imovel_quartos) === Number(filters.quartos));
+        }
+        if (filters.banheiros) {
+          data = data.filter((i) => Number(i.imovel_banheiros) === Number(filters.banheiros));
+        }
+        if (filters.garagens) {
+          data = data.filter((i) => Number(i.imovel_garagens) === Number(filters.garagens));
+        }
+        setImoveis(data);
+      })
       .catch(() => setImoveis([]))
       .finally(() => setLoading(false));
   }, [
