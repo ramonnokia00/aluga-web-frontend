@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import icone from "../assets/icone.png";
+import api from "../services/api";
 
 export default function EsqueciSenha() {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErro("");
     setMensagem("");
@@ -15,10 +17,17 @@ export default function EsqueciSenha() {
       setErro("Preencha o e-mail.");
       return;
     }
-    // Aqui você pode chamar sua API de recuperação de senha
-    setMensagem(
-      "Se o e-mail estiver cadastrado, você receberá as instruções para redefinir sua senha."
-    );
+    setLoading(true);
+    try {
+      await api.post("/esqueci-senha", { email });
+      setMensagem(
+        "Se o e-mail estiver cadastrado, você receberá as instruções para redefinir sua senha."
+      );
+    } catch (err) {
+      setErro("Erro ao enviar solicitação. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -53,7 +62,7 @@ export default function EsqueciSenha() {
             type="submit"
             className="bg-[#DF4300] text-white font-bold rounded py-3 mt-2 hover:bg-orange-700 transition"
           >
-            Enviar
+            {loading ? "Enviando..." : "Enviar"}
           </button>
         </form>
         <div className="flex justify-between mt-4">

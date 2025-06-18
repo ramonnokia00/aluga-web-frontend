@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import api from "../services/api";
+import { useLogin } from "../contexts/LoginContext";
 
 export default function Cadastro() {
   const [nome, setNome] = useState("");
@@ -11,36 +12,23 @@ export default function Cadastro() {
   const [foto, setFoto] = useState(null);
   const [erro, setErro] = useState("");
   const navigate = useNavigate();
+  const { register, loading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErro("");
-    try {
-      const formData = new FormData();
-      formData.append("usuario_nome", nome);
-      formData.append("usuario_email", email);
-      formData.append("usuario_telefone", telefone);
-      formData.append("usuario_nascimento", nascimento);
-      formData.append("usuario_senha", senha);
-      if (foto) formData.append("usuario_imagem", foto);
-
-      const res = await api.post("/usuarios", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      if (res.data && !res.data.tipo) {
-        // Login automático após cadastro
-        const loginRes = await api.post("/usuarios/login", {
-          usuario_email: email,
-          usuario_senha: senha,
-        });
-        localStorage.setItem("usuario", JSON.stringify(loginRes.data));
-        navigate("/imoveis");
-      } else {
-        setErro(res.data.mensagem || "Erro ao cadastrar.");
-      }
-    } catch (err) {
-      setErro("Erro ao cadastrar.");
+    const formData = new FormData();
+    formData.append("usuario_nome", nome);
+    formData.append("usuario_email", email);
+    formData.append("usuario_telefone", telefone);
+    formData.append("usuario_nascimento", nascimento);
+    formData.append("usuario_senha", senha);
+    if (foto) formData.append("usuario_imagem", foto);
+    const resultado = await register(formData);
+    if (resultado.sucesso) {
+      navigate("/imoveis");
+    } else {
+      setErro(resultado.erro || "Erro ao cadastrar usuário");
     }
   };
 
