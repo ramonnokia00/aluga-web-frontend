@@ -11,6 +11,7 @@ import CadastrarImovel from "../pages/CadastrarImovel";
 import PageLayout from "../Layouts/PageLayout";
 import AuthLayout from "../Layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
+import Favoritos from "../pages/Favoritos";
 
 const Paths = () => {
   return (
@@ -22,7 +23,7 @@ const Paths = () => {
           <Route path="login" element={<Login />} />
           <Route path="cadastro" element={<Cadastro />} />
           <Route path="esqueci-senha" element={<EsqueciSenha />} />
-          
+          <Route path="favoritos" element={<Favoritos/>}/>
           <Route
             path="cadastrar-imovel"
             element={

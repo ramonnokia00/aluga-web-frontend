@@ -21,12 +21,12 @@ const Abas = () => {
 
                 <p>Localização</p>
             </div>
-            <div className="w-[338px] h-[54px] rounded-[8px] border border-gray-300 flex items-center px-2 ml-[79px]
+            <div className="w-[338px] h-[54px] rounded-[8px] border  flex items-center px-2 
             mt-[12px]">
                 <input
                     type="text"
                     placeholder="Digite o bairro, rua ou cidade"
-                    className="w-full outline-none ml-[79px] rounded-[8px]"
+                    className="w-full outline-none ml-[79px] rounded-[8px] "
                 />
             </div>
 
