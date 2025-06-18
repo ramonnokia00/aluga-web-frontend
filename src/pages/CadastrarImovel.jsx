@@ -8,14 +8,27 @@ export default function CadastrarImovel() {
   const { usuario } = useLogin();
   const [form, setForm] = useState({
     imovel_nome: "",
+    imovel_estado: "",
     imovel_cidade: "",
+    imovel_bairro: "",
+    imovel_logradouro: "",
+    imovel_numero: "",
+    imovel_complemento: "",
+    imovel_cep: "",
     imovel_tipo: "",
-    imovel_quartos: "",
-    imovel_banheiros: "",
-    imovel_garagens: "",
+    imovel_modalidade: "",
     imovel_valor: "",
+    imovel_valor_condominio: "",
+    imovel_descricao: "",
+    imovel_quartos: "",
+    imovel_garagens: "",
+    imovel_banheiros: "",
+    imovel_area: "",
+    imovel_contato1: "",
+    imovel_contato2: "",
   });
   const [valorFormatado, setValorFormatado] = useState("");
+  const [valorCondominioFormatado, setValorCondominioFormatado] = useState("");
   const [imagens, setImagens] = useState([]);
   const [mensagem, setMensagem] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
@@ -38,6 +51,31 @@ export default function CadastrarImovel() {
         : `R$ ${valor.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`
     );
     setForm({ ...form, imovel_valor: valor });
+  }
+
+  function handleValorCondominio(e) {
+    let valor = e.target.value.replace(/\D/g, "");
+    valor = (Number(valor) / 100).toFixed(2);
+    setValorCondominioFormatado(
+      valor === "0.00"
+        ? ""
+        : `R$ ${valor.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`
+    );
+    setForm({ ...form, imovel_valor_condominio: valor });
+  }
+
+  function handleCep(e) {
+    let v = e.target.value.replace(/\D/g, "");
+    if (v.length > 5) v = v.replace(/(\d{5})(\d{1,3})/, "$1-$2");
+    setForm({ ...form, imovel_cep: v });
+  }
+
+  function handleTelefone(e, field) {
+    let v = e.target.value.replace(/\D/g, "");
+    if (v.length > 10) v = v.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+    else if (v.length > 5) v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+    else if (v.length > 2) v = v.replace(/(\d{2})(\d{0,5})/, "($1) $2");
+    setForm({ ...form, [field]: v });
   }
 
   function handleSubmit(e) {
@@ -63,14 +101,27 @@ export default function CadastrarImovel() {
       setTimeout(() => navigate("/imoveis"), 1200);
       setForm({
         imovel_nome: "",
+        imovel_estado: "",
         imovel_cidade: "",
+        imovel_bairro: "",
+        imovel_logradouro: "",
+        imovel_numero: "",
+        imovel_complemento: "",
+        imovel_cep: "",
         imovel_tipo: "",
-        imovel_quartos: "",
-        imovel_banheiros: "",
-        imovel_garagens: "",
+        imovel_modalidade: "",
         imovel_valor: "",
+        imovel_valor_condominio: "",
+        imovel_descricao: "",
+        imovel_quartos: "",
+        imovel_garagens: "",
+        imovel_banheiros: "",
+        imovel_area: "",
+        imovel_contato1: "",
+        imovel_contato2: "",
       });
       setValorFormatado("");
+      setValorCondominioFormatado("");
       setImagens([]);
     } catch (err) {
       setMensagem("Erro ao cadastrar imóvel.");
@@ -92,14 +143,75 @@ export default function CadastrarImovel() {
           onChange={handleChange}
           required
         />
+        <div className="flex gap-2">
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_estado"
+            placeholder="Estado"
+            value={form.imovel_estado}
+            onChange={handleChange}
+            required
+            maxLength={2}
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_cidade"
+            placeholder="Cidade"
+            value={form.imovel_cidade}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="flex gap-2">
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_bairro"
+            placeholder="Bairro"
+            value={form.imovel_bairro}
+            onChange={handleChange}
+            required
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_logradouro"
+            placeholder="Logradouro"
+            value={form.imovel_logradouro}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="flex gap-2">
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/3"
+            type="text"
+            name="imovel_numero"
+            placeholder="Número"
+            value={form.imovel_numero}
+            onChange={handleChange}
+            required
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-2/3"
+            type="text"
+            name="imovel_complemento"
+            placeholder="Complemento (opcional)"
+            value={form.imovel_complemento}
+            onChange={handleChange}
+          />
+        </div>
         <input
           className="rounded-lg border border-[#E5E5E5] p-3"
           type="text"
-          name="imovel_cidade"
-          placeholder="Cidade"
-          value={form.imovel_cidade}
-          onChange={handleChange}
+          name="imovel_cep"
+          placeholder="CEP"
+          value={form.imovel_cep}
+          onChange={handleCep}
           required
+          maxLength={9}
         />
         <select
           className="rounded-lg border border-[#E5E5E5] p-3"
@@ -112,35 +224,58 @@ export default function CadastrarImovel() {
           <option value="Casa">Casa</option>
           <option value="Apartamento">Apartamento</option>
         </select>
+        <select
+          className="rounded-lg border border-[#E5E5E5] p-3"
+          name="imovel_modalidade"
+          value={form.imovel_modalidade}
+          onChange={handleChange}
+          required
+        >
+          <option value="">Modalidade</option>
+          <option value="Aluguel">Aluguel</option>
+          <option value="Venda">Venda</option>
+        </select>
+        <div className="flex gap-2">
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/3"
+            type="number"
+            name="imovel_quartos"
+            placeholder="Quartos"
+            value={form.imovel_quartos}
+            onChange={handleChange}
+            required
+            min={1}
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/3"
+            type="number"
+            name="imovel_banheiros"
+            placeholder="Banheiros"
+            value={form.imovel_banheiros}
+            onChange={handleChange}
+            required
+            min={1}
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/3"
+            type="number"
+            name="imovel_garagens"
+            placeholder="Garagens"
+            value={form.imovel_garagens}
+            onChange={handleChange}
+            required
+            min={0}
+          />
+        </div>
         <input
           className="rounded-lg border border-[#E5E5E5] p-3"
           type="number"
-          name="imovel_quartos"
-          placeholder="Quantidade de quartos"
-          value={form.imovel_quartos}
+          name="imovel_area"
+          placeholder="Área (m²)"
+          value={form.imovel_area}
           onChange={handleChange}
           required
           min={1}
-        />
-        <input
-          className="rounded-lg border border-[#E5E5E5] p-3"
-          type="number"
-          name="imovel_banheiros"
-          placeholder="Quantidade de banheiros"
-          value={form.imovel_banheiros}
-          onChange={handleChange}
-          required
-          min={1}
-        />
-        <input
-          className="rounded-lg border border-[#E5E5E5] p-3"
-          type="number"
-          name="imovel_garagens"
-          placeholder="Quantidade de garagens"
-          value={form.imovel_garagens}
-          onChange={handleChange}
-          required
-          min={0}
         />
         <div>
           <input
@@ -155,13 +290,55 @@ export default function CadastrarImovel() {
             maxLength={15}
           />
         </div>
+        <div>
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-full"
+            type="text"
+            name="imovel_valor_condominio"
+            placeholder="Valor do condomínio"
+            value={valorCondominioFormatado}
+            onChange={handleValorCondominio}
+            inputMode="numeric"
+            maxLength={15}
+          />
+        </div>
+        <textarea
+          className="rounded-lg border border-[#E5E5E5] p-3"
+          name="imovel_descricao"
+          placeholder="Descrição do imóvel"
+          value={form.imovel_descricao}
+          onChange={handleChange}
+          required
+          rows={3}
+        />
+        <div className="flex gap-2">
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_contato1"
+            placeholder="Contato 1 (WhatsApp)"
+            value={form.imovel_contato1}
+            onChange={e => handleTelefone(e, "imovel_contato1")}
+            required
+            maxLength={15}
+          />
+          <input
+            className="rounded-lg border border-[#E5E5E5] p-3 w-1/2"
+            type="text"
+            name="imovel_contato2"
+            placeholder="Contato 2 (opcional)"
+            value={form.imovel_contato2}
+            onChange={e => handleTelefone(e, "imovel_contato2")}
+            maxLength={15}
+          />
+        </div>
         <div className="flex flex-col gap-2">
           <label className="block text-gray-700 font-medium">
             Fotos do imóvel
           </label>
           <div
             className="flex gap-2 flex-wrap mt-2 overflow-y-auto"
-            style={{ maxHeight: "160px" }} // Área rolável para miniaturas
+            style={{ maxHeight: "160px" }}
           >
             {imagens.map((img, idx) => (
               <div

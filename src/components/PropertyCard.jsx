@@ -1,6 +1,7 @@
 import React from "react";
 import { FaHeart, FaBed, FaCar, FaBath } from "react-icons/fa";
-
+import casa from "../assets/imagemcasa.png";
+import apartamento from "../assets/apartamento.jpg"; 
 const PropertyCard = ({
   image,
   address,
@@ -15,14 +16,27 @@ const PropertyCard = ({
   onContact,
   isFavorite,
   onFavorite,
+  imovelData, // Novo: recebe o objeto do imóvel completo
 }) => {
+  // Lógica para imagem: mostra casa ou apartamento conforme o tipo
+  let imagemExibir = image;
+  if (!imagemExibir && imovelData) {
+    if (
+      imovelData.imovel_tipo &&
+      imovelData.imovel_tipo.toLowerCase() === "apartamento"
+    ) {
+      imagemExibir = apartamento;
+    } else {
+      imagemExibir = casa;
+    }
+  }
   return (
     <div className="flex bg-white rounded-2xl shadow-lg overflow-hidden max-w-3xl mx-auto my-6 relative border border-gray-200 min-h-[200px]">
       {/* Imagem */}
-      <div className="w-60 h-48 flex-shrink-0">
+      <div className="w-32 sm:w-48 md:w-60 h-32 sm:h-40 md:h-48 flex-shrink-0">
         <img
-          src={image}
-          alt="Casa"
+          src={imagemExibir}
+          alt={imovelData && imovelData.imovel_tipo && imovelData.imovel_tipo.toLowerCase() === "apartamento" ? "Apartamento" : "Casa"}
           className="object-cover w-full h-full rounded-l-2xl"
         />
       </div>
@@ -31,7 +45,7 @@ const PropertyCard = ({
         {/* Favorito */}
         <button
           className="absolute top-4 right-4 text-gray-300 hover:text-orange-500 transition"
-          onClick={onFavorite}
+          onClick={() => onFavorite && onFavorite(imovelData)}
         >
           <FaHeart size={22} className={isFavorite ? "text-orange-500" : ""} />
         </button>

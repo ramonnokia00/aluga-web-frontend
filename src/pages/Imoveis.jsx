@@ -5,6 +5,9 @@ import PropertyCard from "../components/PropertyCard";
 import api from "../services/api";
 import { useLogin } from "../contexts/LoginContext";
 import FiltroResumo from "../components/FiltroResumo";
+import imagemCasa from "../assets/imagemcasa.png";
+import apartamento from "../assets/apartamento.jpg";
+
 
 export default function Imoveis() {
   const { usuario } = useLogin();
@@ -31,6 +34,7 @@ export default function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
   const [loading, setLoading] = useState(false);
   const [ordem, setOrdem] = useState("relevancia");
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -88,15 +92,65 @@ export default function Imoveis() {
     .filter(Boolean)
     .join(" > ");
 
+  // Função para verificar se o imóvel está nos favoritos
+  function isImovelFavorito(imovel) {
+    const favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    return favoritos.some((f) => f.imovel_id === imovel.imovel_id);
+  }
+
+  // Função para adicionar/remover imóvel dos favoritos
+  function handleToggleFavorite(imovel) {
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+    if (isImovelFavorito(imovel)) {
+      favoritos = favoritos.filter((f) => f.imovel_id !== imovel.imovel_id);
+    } else {
+      favoritos.push(imovel);
+    }
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    // Força re-renderização
+    setImoveis((prev) => [...prev]);
+  }
+
   return (
     <div className="bg-[#F7F7F7] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-[320px_1fr] gap-6">
-          <aside className="w-full md:w-80 mb-6 md:mb-0">
+        <div className="grid grid-cols-1 md:grid-cols-[320px_1fr] gap-6">
+          {/* Botão para abrir gaveta no mobile */}
+          <button
+            className="md:hidden mb-4 bg-[#E94D0C] text-white px-4 py-2 rounded font-bold"
+            onClick={() => setDrawerOpen(true)}
+          >
+            Filtros
+          </button>
+          {/* Gaveta lateral para mobile */}
+          {drawerOpen && (
+            <div className="fixed inset-0 z-50 flex">
+              <div
+                className="fixed inset-0 bg-black-05 bg-opacity-40"
+                onClick={() => setDrawerOpen(false)}
+              ></div>
+              <aside className="relative bg-white w-80 max-w-full h-full shadow-lg z-50 animate-slideInRight">
+                <button
+                  className="absolute top-2 right-2 text-[#E94D0C] text-2xl font-bold"
+                  onClick={() => setDrawerOpen(false)}
+                  aria-label="Fechar filtros"
+                >
+                  ×
+                </button>
+                <SidebarFilters
+                  filters={filters}
+                  setFilters={setFilters}
+                  onSearch={() => setDrawerOpen(false)}
+                />
+              </aside>
+            </div>
+          )}
+          {/* Sidebar para desktop */}
+          <aside className="hidden md:block w-full md:w-80 mb-6 md:mb-0">
             <SidebarFilters
               filters={filters}
               setFilters={setFilters}
-              onSearch={() => {}}
+              onSearch={() => { }}
             />
           </aside>
           <main className="flex-1">
@@ -135,10 +189,10 @@ export default function Imoveis() {
                     {filters.bairro
                       ? ` em ${filters.bairro}, ${filters.cidade} - ${filters.estado}`
                       : filters.cidade
-                      ? ` em ${filters.cidade} - ${filters.estado}`
-                      : filters.estado
-                      ? ` em ${filters.estado}`
-                      : ""}
+                        ? ` em ${filters.cidade} - ${filters.estado}`
+                        : filters.estado
+                          ? ` em ${filters.estado}`
+                          : ""}
                   </h2>
                   <FiltroResumo
                     filters={filters}
@@ -173,10 +227,9 @@ export default function Imoveis() {
                   <PropertyCard
                     key={imovel.imovel_id}
                     image={
-                      imovel.imovel_imagem &&
-                      !imovel.imovel_imagem.startsWith("http")
-                        ? `http://localhost:8000${imovel.imovel_imagem}`
-                        : imovel.imovel_imagem || "/user-default.png"
+                      imovel.imovel_tipo && imovel.imovel_tipo.toLowerCase() === "apartamento"
+                        ? apartamento
+                        : imagemCasa
                     }
                     address={imovel.imovel_logradouro}
                     neighborhood={imovel.imovel_bairro}
@@ -188,8 +241,9 @@ export default function Imoveis() {
                     bathrooms={imovel.imovel_banheiros}
                     price={imovel.imovel_valor}
                     onContact={() => alert("Contato!")}
-                    isFavorite={false}
-                    onFavorite={() => alert("Favorito!")}
+                    isFavorite={isImovelFavorito(imovel)}
+                    onFavorite={() => handleToggleFavorite(imovel)}
+                    imovelData={imovel}
                   />
                 ))}
             </div>

@@ -7,14 +7,13 @@ import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import EsqueciSenha from "../pages/EsqueciSenha";
 import CadastrarImovel from "../pages/CadastrarImovel";
-import Favoritos from "../pages/Favoritos";
+import Favoritos from "../pages/Favoritos"; // manter só essa
 import MeuPerfil from "../pages/MeuPerfil";
 import Configuracoes from "../pages/Configuracoes";
 
 import PageLayout from "../Layouts/PageLayout";
 import AuthLayout from "../Layouts/AuthLayout";
 import PrivateRoute from "./PrivateRoute";
-import Favoritos from "../pages/Favoritos";
 
 const Paths = () => {
   return (

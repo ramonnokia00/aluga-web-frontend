@@ -24,11 +24,15 @@ export default function Cadastro() {
     formData.append("usuario_nascimento", nascimento);
     formData.append("usuario_senha", senha);
     if (foto) formData.append("usuario_imagem", foto);
-    const resultado = await register(formData);
-    if (resultado.sucesso) {
-      navigate("/imoveis");
-    } else {
-      setErro(resultado.erro || "Erro ao cadastrar usuário");
+    try {
+      const resultado = await register(formData);
+      if (resultado && resultado.sucesso) {
+        navigate("/imoveis");
+      } else {
+        setErro((resultado && resultado.erro) || "Erro ao cadastrar usuário");
+      }
+    } catch (err) {
+      setErro("Erro inesperado ao cadastrar usuário");
     }
   };
 

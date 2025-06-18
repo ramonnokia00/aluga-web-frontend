@@ -21,7 +21,7 @@ export function LoginProvider({ children }) {
     setError("");
     try {
       const res = await api.post("/login", {
-        usuario_email: email,
+        Usuario_email: email, // Corrigido para o backend aceitar
         usuario_senha: senha,
       });
       if (
